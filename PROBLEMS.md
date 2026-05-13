@@ -26,3 +26,24 @@ Sorun: Tasarım, bir ürüne sadece bir tane indirim uygulanmasına izin veriyor
 Neden: İleride "Öğrenci olup aynı zamanda Bayram indiriminden yararlananlar" gibi bir senaryo gelirse bu switch-case yapısı tamamen çöker; çünkü her durumda sadece bir case çalışır.
 
 
+## Faz 2: Yapısal (Structural) Eksiklikler ve İyileştirme Planı
+
+   *Esneklik ve Dinamik Nesne Sarmalama Sorunu (Decorator İhtiyacı):*
+   
+   Mevcut Sorun: Temel sepet nesnesi sadece ürün listesi ve ham fiyat bilgisi taşıyor. Sepete kargo ücreti eklemek veya sepetin ödeme sürecini başlatmak gibi ek sorumluluklar, ana sınıfın içine kodlanmak zorunda kalıyor.
+
+   Teknik Analiz: Ödeme bilgilerini alma ve doğrulama gibi işlemler sepet sınıfına eklendiğinde Single Responsibility (Tek Sorumluluk) ilkesi ihlal ediliyor. Ayrıca, farklı ödeme türlerini yönetmek için ana kodu modifiye etmek Open/Closed ilkesine aykırılık oluşturuyor.
+
+   Hedef Çözüm: Decorator Pattern kullanarak; temel sepet nesnesini KargoDecorator, HediyePaketiDecorator veya OdemeDecorator gibi sınıflarla sarmalayacağım. Böylece nesneye çalışma zamanında (runtime) hem maliyet binen özellikler hem de "ödeme onay süreci" gibi yeni davranışlar, ana yapıyı bozmadan eklenebilecek.
+   
+
+   *Uyumsuz Arayüzler ve Dış Sistem Entegrasyonu Sorunu (Adapter İhtiyacı): *  
+   
+   Mevcut Sorun: Sisteme dahil edilmesi planlanan üçüncü taraf kargo firması API'leri (örneğin X-Kargo API), projenin mevcut metot imzaları ve veri yapılarıyla doğrudan uyumlu olmayacaktır.
+       
+   Teknik Analiz: Dış sistemden gelen metotları (örneğin gonderimiBaslat()) projenin mevcut standartlarına (örneğin kargoGonder()) uydurmak için projenin her yerinde değişiklik yapma "Sertlik" (Rigidity) sorununa neden oluyor.  
+     
+   Hedef Çözüm: Adapter Pattern kullanarak, dış kütüphanelerin uyumsuz arayüzlerini projenin beklediği standart arayüze dönüştüren bir yapısal köprü kuracağım. Böylece mevcut iş mantığına dokunmadan farklı kargo sağlayıcıları sisteme entegre edilebilecek.
+
+
+
