@@ -3,47 +3,11 @@ import java.util.Scanner;
 public class Sepet{
 	
 	public static double odenecekTutarHesapla(String indirimTipi, double fiyat){
-		double odenecekFiyat=fiyat;
 		
-		switch (indirimTipi) {
-		case "ogrenci":
-			odenecekFiyat=fiyat*0.85;
+		IindirimStratejisi strateji = IndirimYap.indirimOlustur(indirimTipi);
+		fiyat = strateji.indirimUygula(fiyat);
 			
-			if(odenecekFiyat<600) {
-				odenecekFiyat=odenecekFiyat+10;
-			}else if(odenecekFiyat<300) {
-				odenecekFiyat=odenecekFiyat+25;
-			}else {
-				odenecekFiyat=odenecekFiyat+55;
-			}
-			break;
-		case "emekli":
-			odenecekFiyat=fiyat*0.9;
-			
-			if(odenecekFiyat<600) {
-				odenecekFiyat=odenecekFiyat+10;
-			}else if(odenecekFiyat<300) {
-				odenecekFiyat=odenecekFiyat+25;
-			}else {
-				odenecekFiyat=odenecekFiyat+55;
-			}
-			break;
-		case "bayram":
-			odenecekFiyat=fiyat*0.8;
-			
-			if(odenecekFiyat<600) {
-				odenecekFiyat=odenecekFiyat+10;
-			}else if(odenecekFiyat<300) {
-				odenecekFiyat=odenecekFiyat+25;
-			}else {
-				odenecekFiyat=odenecekFiyat+55;
-			}
-			break;
-		default:
-			System.out.println("Geçersiz tür!");
-		}
-			
-		return odenecekFiyat;
+		return fiyat;
 	}
 	
 	public static void main(String[] args) {
