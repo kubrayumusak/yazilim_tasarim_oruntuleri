@@ -31,5 +31,10 @@ Nedeni: Kargo ücretini ve ödemeyi birer dekoratör olarak kurgulamak, temel se
 Farklılık: Yapay zeka başlangıçta banka entegrasyonu için sadece Adapter üzerinde durmuştu. Ancak kargo ücretlendirmesindeki "katılığı" gidermek için düşündüğüm Decorator çözümünü ödeme sürecindede uygulamak istedim. Bu sayede sadece dış sistemleri bağlamakla kalmayıp (Adapter), bu sistemlerin getirdiği sorumlulukları da sepeti sarmalayarak (Decorator) yönetmeye karar verdim. AI'ın standart önerisini, projenin özel ihtiyaçlarına göre genişleterek kendi mimari çözümümü oluşturdum.
 
 
+#4. AI'ın Eksik/Hatalı Önerisi ve Düzeltme (Kritik Gözlem)
+Gözlem: Sepet içindeki indirim yüzdesini hesaplarken AI, başlangıçta basit bir (int) cast işlemi önerdi.
 
+Sorun: Java'daki ondalıklı sayı hesaplama hassasiyeti nedeniyle, 6234 TL üzerinden yapılan %20'lik indirim sonucunda indirim yüzdesi faturada %19 olarak göründü. AI, ondalık kısımlardaki çok küçük sapmaları ve Java'nın (int) kullanırken sayıyı yukarı yuvarlamak yerine direkt kesip atmasını başlangıçta öngöremedi.
+
+Düzeltme: Bu teknik hatayı fark ederek AI'ı uyardım. Sayısal hassasiyeti korumak ve faturada doğru veriyi göstermek için Math.round() fonksiyonunun kullanmasını istedim. Bu müdahale sonucunda hesaplama hatası giderildi ve doğru yüzdelik değerlerin gösterilmesi sağlandı.
 
