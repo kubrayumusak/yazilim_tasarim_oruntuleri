@@ -28,19 +28,6 @@ public class KargoMaliyetiSarmalayici extends SepetSarmalayici {
         return mevcutFiyat;
     }
     
-    /*@Override
-    public String aciklama() {
-        double araToplam = sarmalananSepet.maliyetHesapla();
-        String oncekiAciklama = sarmalananSepet.aciklama();
-        
-        if (araToplam >= BEDAVA_LIMIT) {
-            return oncekiAciklama + 
-                   "\n[KARGO] 1000 TL Üstü Alışveriş için: ÜCRETSİZ!";
-        } else {
-            double kargoBedeli = (araToplam >= ORTA_LIMIT) ? 10.0 : (araToplam > ALT_LIMIT ? 25.0 : 30.0);
-            return oncekiAciklama + String.format("\nKargo Ücreti: +%.2f TL", kargoBedeli);
-        }
-    }*/
     @Override
     public String aciklama() {
         double araToplam = sarmalananSepet.maliyetHesapla();
