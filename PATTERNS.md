@@ -28,3 +28,29 @@ Eski kodda bulunan karmaşık `if-else` veya `switch-case` blokları, yeni bir k
 ### Sağladığı Kazançlar
 - **Open/Closed Principle:** Mevcut kodlara dokunmadan sisteme yeni indirim stratejileri eklenebilir.
 - **Single Responsibility:** Her indirim sınıfı sadece kendi hesaplama mantığından sorumlu hale getirilerek kod temizlendi.
+
+
+###Faz-2	
+
+###3. Decorator Pattern (Structural / Yapısal)
+- **Nerede ve Nasıl Uygulandı?**
+- **Sınıf:** SepetSarmalayici ve ondan türeyen KargoMaliyetiSarmalayici sınıfları ile uygulandı.
+- **İşlev:** Temel Sepet nesnesine, kodunu değiştirmeden dinamik olarak "kargo ücreti hesaplama" yeteneği kazandırır.
+- **Neden Uygulandı?**
+Kargo maliyeti gibi opsiyonel özellikleri sepetin ana sınıfına gömmek yerine, nesneyi çalışma zamanında (runtime) sarmalayarak esneklik sağlamak için tercih edildi.
+Sağladığı Kazançlar
+- **Modülerlik:** Kargo kuralları (bedava kargo limiti vb.) ana fiyatlandırma mantığından tamamen izole edildi.
+- **Genişletilebilirlik:** İleride "Hediye Paketi" veya "Sigorta" gibi ek özellikler gelirse, mevcut kodu bozmadan yeni bir Decorator eklenebilir.
+
+##4.Adapter Pattern (Structural / Yapısal) Nerede ve Nasıl Uygulandı?
+- **Sınıf:** XKargoAdapter ve IKargoServisi arayüzü ile uygulandı.
+- **İşlev:** Bizim sistemimize uyumlu olmayan dış bir kütüphaneyi (XKargoSistemi), sistemimizin beklediği dile çevirerek entegre etti.
+- **Neden Uygulandı?**
+Dışarıdan gelen kargo API'sinin metod isimleri bizim standartlarımıza uymuyordu. Dış kodun içine müdahale edemediğimiz için bu köprüyü kurduk.
+Sağladığı Kazançlar
+- **Uyumsuz Sistem Entegrasyonu:** Kod karmaşası yaratmadan farklı kargo firmalarıyla çalışma kapısı açıldı. 
+
+
+
+
+
