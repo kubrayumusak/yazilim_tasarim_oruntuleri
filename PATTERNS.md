@@ -63,3 +63,8 @@ Sağladığı Kazançlar
 - **Neden Kullanıldı:** Fatura oluşturma algoritmasının iskeletini (başlık, içerik, dipnot) tek bir soyut sınıfta sabitlemek ve alt sınıfların sadece kendilerine özgü metinsel detayları (bireysel/kurumsal farkları) doldurmasını sağlamak için seçildi.
 - **Ne Kazandırdı:** Kod tekrarı önlendi, fatura süreçleri standartlaştırıldı ve esnek string manipülasyonlarına dayalı gerçekçi bir mimari elde edildi.
 
+### 3. Çoklu İndirim Entegrasyonu (Pattern Composition: Factory + Strategy + Decorator)
+- **Nerede Kullanıldı:** `KombineIndirim.java` sınıfı oluşturularak Faz 1'deki `IndirimYap` fabrikasına ve Faz 3'teki `IindirimStratejisi` yapısına entegre edildi.
+- **Neden Kullanıldı:** Mevcut sistem tek seferde sadece tek bir indirim stratejisi (`Ogrenci`, `Emekli` veya `Bayram`) seçilmesine izin veriyordu. Müşterilerin birden fazla indirimi üst üste (kombine olarak) kullanabilmesi ihtiyacı doğduğunda, tıkır tıkır çalışan eski strateji sınıflarının içini `if-else` bloklarıyla manipüle edip bozmamak (Open/Closed Principle'a sadık kalmak) amacıyla Decorator mantığıyla bu yapı kurgulanmıştır.
+- **Ne Kazandırdı:** - `KombineIndirim` sınıfı sayesinde iki farklı indirim stratejisi iç içe sarmalanarak tek bir `IindirimStratejisi` nesnesine dönüştürülmüştür.
+  - `Sepet` sınıfı veya mevcut indirim sınıfları üzerinde hiçbir kod manipülasyonu ya da değişiklik yapılmadan, sisteme çalışma zamanında (runtime) "birden fazla indirim uygulayabilme" esnekliği kazandırılmıştır.

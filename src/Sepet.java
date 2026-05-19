@@ -45,7 +45,7 @@ public class Sepet implements ISepet {
         
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("İndirim tipini giriniz (Ogrenci, Emekli, Bayram, HaftaSonu):");
+        System.out.println("İndirim tipini giriniz (Ogrenci, Emekli, Bayram, HaftaSonu, Ogrenci+Bayram...):");
         String tip = scanner.nextLine();
         
         System.out.println("Toplam ürün tutarını giriniz:");
