@@ -51,7 +51,6 @@ Sağladığı Kazançlar
 - **Uyumsuz Sistem Entegrasyonu:** Kod karmaşası yaratmadan farklı kargo firmalarıyla çalışma kapısı açıldı. 
 
 
-
 ## FAZ 3: BEHAVIORAL (DAVRANIŞSAL) ÖRÜNTÜLER
 
 ### 1. Strategy Pattern (Strateji Örüntüsü)
@@ -63,3 +62,4 @@ Sağladığı Kazançlar
 - **Nerede Kullanıldı:** `FaturaSablonu`, `BireyselFatura` ve `KurumsalFatura` sınıfları hiyerarşisinde kullanıldı.
 - **Neden Kullanıldı:** Fatura oluşturma algoritmasının iskeletini (başlık, içerik, dipnot) tek bir soyut sınıfta sabitlemek ve alt sınıfların sadece kendilerine özgü metinsel detayları (bireysel/kurumsal farkları) doldurmasını sağlamak için seçildi.
 - **Ne Kazandırdı:** Kod tekrarı önlendi, fatura süreçleri standartlaştırıldı ve esnek string manipülasyonlarına dayalı gerçekçi bir mimari elde edildi.
+
