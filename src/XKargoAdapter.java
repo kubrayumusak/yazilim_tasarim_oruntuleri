@@ -1,3 +1,4 @@
+
 public class XKargoAdapter implements IKargoServisi {
     private XKargoSistemi xKargo;
 
