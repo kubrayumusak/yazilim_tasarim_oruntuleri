@@ -20,13 +20,13 @@ Ayrıca e-ticaret sitelerindeki dinamik indirim yönetiminin nasıl işlediğini
 
 ---
 
-## Mimari Prensipler (SOLID)
+## Mimari Prensipler
 * **Open/Closed Principle (OCP - Açık/Kapalı Prensibi):** Faz 3 kapsamında uygulanan Strategy ve Template Method kalıpları sayesinde; mevcut koda tek bir satır dahi dokunmadan sisteme yepyeni indirim stratejileri (`HaftaSonuIndirimi`) ve yeni fatura türleri kolayca eklenebilir hale getirilmiştir.
 * **Dependency Inversion Principle (DIP - Bağımlılıkların Tersine Çevrilmesi):** Sınıflar somut implementasyonlar veya fabrikalar yerine tamamen soyut arayüzlere (Interface) bağımlı kılınarak gevşek bağlı bir yapı elde edilmiştir.
 
 ---
 
-## Projeyi Çalıştırma (How to Run)
+## Projeyi Çalıştırma
 
 1. Komut satırından kaynak kodların bulunduğu dizine gidin:
    cd src
