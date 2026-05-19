@@ -52,5 +52,14 @@ Sağladığı Kazançlar
 
 
 
+## FAZ 3: BEHAVIORAL (DAVRANIŞSAL) ÖRÜNTÜLER
 
+### 1. Strategy Pattern (Strateji Örüntüsü)
+- **Nerede Kullanıldı:** `Sepet` sınıfı ile indirim hesaplama mekanizmaları arasında kullanıldı.
+- **Neden Kullanıldı:** Sepet sınıfının içindeki katı fabrika bağımlılığını koparmak ve indirim mantığını dışarıdan enjekte edilebilir (Dependency Injection) hale getirmek için tercih edildi.
+- **Ne Kazandırdı:** Açık/Kapalı Prensibi (Open/Closed Principle - OCP) tam anlamıyla sağlandı. Mevcut `Sepet` koduna tek bir satır dahi dokunmadan sisteme `HaftaSonuIndirimi` gibi yepyeni bir strateji eklenebilir hale geldi.
 
+### 2. Template Method Pattern (Şablon Metot Örüntüsü)
+- **Nerede Kullanıldı:** `FaturaSablonu`, `BireyselFatura` ve `KurumsalFatura` sınıfları hiyerarşisinde kullanıldı.
+- **Neden Kullanıldı:** Fatura oluşturma algoritmasının iskeletini (başlık, içerik, dipnot) tek bir soyut sınıfta sabitlemek ve alt sınıfların sadece kendilerine özgü metinsel detayları (bireysel/kurumsal farkları) doldurmasını sağlamak için seçildi.
+- **Ne Kazandırdı:** Kod tekrarı önlendi, fatura süreçleri standartlaştırıldı ve esnek string manipülasyonlarına dayalı gerçekçi bir mimari elde edildi.
