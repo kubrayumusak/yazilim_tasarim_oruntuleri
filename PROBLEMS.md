@@ -85,3 +85,5 @@ s
   - Algoritmanın değişmez iskeleti `+ faturaYazdir(tutar: double): void` isimli **Template Method** bünyesinde kilitlenmiştir.
   - Fatura türlerine göre değişkenlik gösteren adımlar ise `# faturaBasligi(): void` ve `# musteriDetayi(): void` şeklinde soyut metotlara (Primitive Operations) dönüştürülmüştür.
   - `BireyselFatura` ve `KurumsalFatura` somut sınıfları bu soyut adımları ezerek (`override`) kendi özel mantıklarını işletmiştir. Böylece kod tekrarı tamamen önlenmiş ve sisteme yüksek bir yapısal standart kazandırılmıştır.
+
+* **Hedef Çözüm:** Fabrika sınıfına (`IndirimYap`) gelen metinsel girdiler `toLowerCase(Locale.ENGLISH)` ve `trim()` süzgeçlerinden geçirilerek standardize edilmiştir. Böylece kullanıcının yazım hatalarından kaynaklı sistem kırılganlığı tamamen ortadan kaldırılmıştır.
