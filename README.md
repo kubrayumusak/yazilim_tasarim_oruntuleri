@@ -20,6 +20,14 @@ Ayrıca e-ticaret sitelerindeki dinamik indirim yönetiminin nasıl işlediğini
 
 ---
 
+## Mimari Sınıf Diyagramı (UML)
+
+Projenin tüm fazlarını, tasarım örüntülerini ve sınıflar arası ilişkileri gösteren güncel UML sınıf diyagramı aşağıda yer almaktadır:
+
+![Sistem Mimari Diyagramı](docs/diagrams/Faz-3_diagram/Faz-3_uml.png)
+
+---
+
 ## Mimari Prensipler
 * **Open/Closed Principle (OCP - Açık/Kapalı Prensibi):** Faz 3 kapsamında uygulanan Strategy ve Template Method kalıpları sayesinde; mevcut koda tek bir satır dahi dokunmadan sisteme yepyeni indirim stratejileri (`HaftaSonuIndirimi`) ve yeni fatura türleri kolayca eklenebilir hale getirilmiştir.
 * **Dependency Inversion Principle (DIP - Bağımlılıkların Tersine Çevrilmesi):** Sınıflar somut implementasyonlar veya fabrikalar yerine tamamen soyut arayüzlere (Interface) bağımlı kılınarak gevşek bağlı bir yapı elde edilmiştir.
