@@ -26,3 +26,19 @@ Sorun: Tasarım, bir ürüne sadece bir tane indirim uygulanmasına izin veriyor
 Neden: İleride "Öğrenci olup aynı zamanda Bayram indiriminden yararlananlar" gibi bir senaryo gelirse bu switch-case yapısı tamamen çöker; çünkü her durumda sadece bir case çalışır.
 
 
+## Faz 1: Yaratımsal ve Davranışsal Başlangıç Problemleri
+
+### 1. Sepet Sınıfında Katı Nesne Bağımlılığı ve Sıkı Bağlılık (Tight Coupling)
+* **Mevcut Sorun (Code Smell):** Projenin ilk çiğ halinde `Sepet` sınıfı, hangi indirim türünün (`OgrenciIndirim`, `EmekliIndirim`, `BayramIndirim`) uygulanacağına doğrudan kendi karar veriyor ve nesne üretimini `new` anahtar kelimesiyle kendi gövdesi içinde yapıyordu.
+* **Teknik Analiz:** **Single Responsibility (Tek Sorumluluk)** ilkesi ağır şekilde ihlal edilmişti. `Sepet` sınıfı hem sepet işlemlerini (ürün yönetimi, fiyatlandırma) yürütüyor hem de nesne yaratma mantığını barındırarak bir "God Class" (Aşırı Yüklü Sınıf) olmaya yaklaşıyordu. Sisteme yeni bir indirim türü eklemek, mevcut `Sepet` kodunun değiştirilmesini gerektiriyordu.
+* **Hedef Çözüm (Factory Method):** Nesne yaratma sorumluluğu `IndirimYap` adında merkezi bir fabrika sınıfı içerisindeki `indirimOlustur(tip: String)` metoduna devredilmiştir. `Sepet` sınıfı artık somut sınıfların nasıl örneklendiğini bilmek zorunda kalmadan, sıkı bağımlılıktan kurtulmuştur.
+
+### 2. İndirim Algoritmalarındaki İf-Else / Switch-Case Dağınıklığı
+* **Mevcut Sorun:** Farklı indirim oranlarının hesaplanması ve yönetilmesi, sepetin ana fiyat hesaplama fonksiyonu içinde iç içe geçmiş katı `switch-case` bloklarıyla çözülmeye çalışılıyordu.
+* **Teknik Analiz:** **Open/Closed (Açık/Kapalı)** prensibi ihlal ediliyordu. Gelecekte yeni bir indirim kuralı geldiğinde (örneğin Faz 3'te eklediğimiz `HaftaSonuIndirim`) mevcut çalışan fiyat hesaplama koduna doğrudan müdahale edilmesi gerekiyor, bu da sistemin kırılganlığını artırıyordu.
+* **Hedef Çözüm (Strategy Pattern):** `IindirimStratejisi` arayüzü tanımlanarak tüm indirim mantığı soyutlanmıştır. Her indirim türü kendi hesaplama algoritmasını kendi somut sınıfı içinde (`OgrenciIndirim.java`, `EmekliIndirim.java`, `BayramIndirim.java`) bağımsız birer strateji olarak implemente etmiştir.
+
+### 3. Kullanıcı Girdilerindeki Kırılganlık ve Küçük-Büyük Harf Duyarlılığı
+* **Mevcut Sorun:** Kullanıcı terminalden indirim türünü yazarken (`Ogrenci`, `ogrenci`, `OGRENCI` veya Türkçe karakterlerle) girdinin tam eşleşmemesi durumunda sistem hata veriyor ya da indirimi tamamen yok sayarak %0 uyguluyordu.
+* **Teknik Analiz:** Girdi doğrulama ve string manipülasyon standartları zayıftı, bu da kullanıcı deneyimini (UX) ve sistem kararlılığını olumsuz etkiliyordu.
+* **Hedef Çözüm:** Fabrika sınıfına (`IndirimYap`) gelen metinsel girdiler `toLowerCase(Locale.ENGLISH)` ve `trim()` süzgeçlerinden geçirilerek standardize edilmiştir. Böylece kullanıcının yazım hatalarından kaynaklı sistem kırılganlığı tamamen ortadan kaldırılmıştır.
