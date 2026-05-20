@@ -12,14 +12,14 @@ Bu fazda, projenin esnekliğini artırmak ve nesne oluşturma süreçlerini mode
 Eski yapıda `Sepet` sınıfı (God Class), hem sepet işlemlerini yürütüyor hem de hangi indirim nesnesinin yaratılacağına karar veriyordu. Bu durum, nesne yaratma mantığını `Sepet` sınıfına gömülü hale getirerek bağımlılığı artırıyordu.
 
 ### Sağladığı Kazançlar
-- **Nesne Yaratma Soyutlaması:** `Sepet` sınıfı artık hangi somut sınıfın (`OgrenciIndirimi` vb.) örneklendiğini bilmek zorunda değildir.
+- **Nesne Yaratma Soyutlaması:** `Sepet` sınıfı artık hangi somut sınıfın (`OgrenciIndirim` vb.) örneklendiğini bilmek zorunda değildir.
 - **Merkezi Kontrol:** Yeni bir indirim türü eklendiğinde sadece Factory (IndirimYap) sınıfında değişiklik yapılır.
 
 
 ## 2. Strategy Pattern (Behavioral / Davranışsal)
 
 ### Nerede ve Nasıl Uygulandı?
-- **Yapı:** `IindirimStratejisi` arayüzü ve bu arayüzü implemente eden `OgrenciIndirimi`, `EmekliIndirimi`, `BayramIndirimi` sınıfları ile uygulandı.
+- **Yapı:** `IindirimStratejisi` arayüzü ve bu arayüzü implemente eden `OgrenciIndirim`, `EmekliIndirim`, `BayramIndirim` sınıfları ile uygulandı.
 - **İşlev:** Farklı indirim hesaplama algoritmalarını birbirinden bağımsız sınıflara ayırarak çalışma zamanında dinamik olarak değiştirilebilmesini sağlar.
 
 ### Neden Uygulandı?
@@ -28,3 +28,53 @@ Eski kodda bulunan karmaşık `if-else` veya `switch-case` blokları, yeni bir k
 ### Sağladığı Kazançlar
 - **Open/Closed Principle:** Mevcut kodlara dokunmadan sisteme yeni indirim stratejileri eklenebilir.
 - **Single Responsibility:** Her indirim sınıfı sadece kendi hesaplama mantığından sorumlu hale getirilerek kod temizlendi.
+
+
+###Faz-2	
+
+###3. Decorator Pattern (Structural / Yapısal)
+- **Nerede ve Nasıl Uygulandı?**
+- **Sınıf:** SepetSarmalayici ve ondan türeyen KargoMaliyetiSarmalayici sınıfları ile uygulandı.
+- **İşlev:** Temel Sepet nesnesine, kodunu değiştirmeden dinamik olarak "kargo ücreti hesaplama" yeteneği kazandırır.
+- **Neden Uygulandı?**
+Kargo maliyeti gibi opsiyonel özellikleri sepetin ana sınıfına gömmek yerine, nesneyi çalışma zamanında (runtime) sarmalayarak esneklik sağlamak için tercih edildi.
+Sağladığı Kazançlar
+- **Modülerlik:** Kargo kuralları (bedava kargo limiti vb.) ana fiyatlandırma mantığından tamamen izole edildi.
+- **Genişletilebilirlik:** İleride "Hediye Paketi" veya "Sigorta" gibi ek özellikler gelirse, mevcut kodu bozmadan yeni bir Decorator eklenebilir.
+
+##4.Adapter Pattern (Structural / Yapısal) Nerede ve Nasıl Uygulandı?
+- **Sınıf:** XKargoAdapter ve IKargoServisi arayüzü ile uygulandı.
+- **İşlev:** Bizim sistemimize uyumlu olmayan dış bir kütüphaneyi (XKargoSistemi), sistemimizin beklediği dile çevirerek entegre etti.
+- **Neden Uygulandı?**
+Dışarıdan gelen kargo API'sinin metod isimleri bizim standartlarımıza uymuyordu. Dış kodun içine müdahale edemediğimiz için bu köprüyü kurduk.
+Sağladığı Kazançlar
+- **Uyumsuz Sistem Entegrasyonu:** Kod karmaşası yaratmadan farklı kargo firmalarıyla çalışma kapısı açıldı. 
+
+
+## Faz-3: BEHAVIORAL ÖRÜNTÜLER
+
+### 1. Strategy Pattern (Strateji Örüntüsü)
+- **Nerede Kullanıldı:** `Sepet` sınıfı ile indirim hesaplama mekanizmaları arasında kullanıldı.
+- **Neden Kullanıldı:** Sepet sınıfının içindeki katı fabrika bağımlılığını koparmak ve indirim mantığını dışarıdan enjekte edilebilir (Dependency Injection) hale getirmek için tercih edildi.
+- **Somut Stratejiler:** `OgrenciIndirim`, `EmekliIndirim`, `BayramIndirim` sınıflarına ek olarak Faz 3'te **`HaftaSonuIndirim`** sınıfı mimariye dahil edilmiştir.
+- **Metotlar:**
+  - `HaftaSonuIndirim` sınıfı içerisindeki `+ indirimUygula(fiyat: double): double` metodudur.
+- **Ne Kazandırdı:** Açık/Kapalı Prensibi (Open/Closed Principle - OCP) tam anlamıyla sağlandı. Mevcut `Sepet` koduna tek bir satır dahi dokunmadan sisteme `HaftaSonuIndirimi` gibi yepyeni bir strateji eklenebilir hale geldi.
+
+### 2. Template Method Pattern (Şablon Metot Örüntüsü)
+- **Nerede Kullanıldı:** `FaturaSablonu`, `BireyselFatura` ve `KurumsalFatura` sınıfları hiyerarşisinde kullanıldı.
+- **Neden Kullanıldı:** Fatura oluşturma algoritmasının iskeletini (başlık, içerik, dipnot) tek bir soyut sınıfta sabitlemek ve alt sınıfların sadece kendilerine özgü metinsel detayları (bireysel/kurumsal farkları) doldurmasını sağlamak için seçildi.
+- **Metotlar:**
+  - **Template Method:** `FaturaSablonu` sınıfı içindeki `+ faturaYazdir(tutar: double): void` metodudur. Algoritmanın adımlarını sırasıyla tetikler.
+  - **Soyut Adımlar:** Alt sınıflar tarafından override edilmek zorunda olan `# faturaBasligi(): void` ve `# musteriDetayi(): void` abstract metotlarıdır.
+- **Ne Kazandırdı:** Kod tekrarı önlendi, fatura süreçleri standartlaştırıldı ve esnek string manipülasyonlarına dayalı gerçekçi bir mimari elde edildi.
+
+### 3. Çoklu İndirim Entegrasyonu (Pattern Composition: Factory + Strategy + Decorator)
+- **Nerede Kullanıldı:** `KombineIndirim.java` sınıfı oluşturularak Faz 1'deki `IndirimYap` fabrikasına ve Faz 3'teki `IindirimStratejisi` yapısına entegre edildi.
+- **Neden Kullanıldı:** Mevcut sistem tek seferde sadece tek bir indirim stratejisi (`Ogrenci`, `Emekli` veya `Bayram`) seçilmesine izin veriyordu. Müşterilerin birden fazla indirimi üst üste (kombine olarak) kullanabilmesi ihtiyacı doğduğunda, tıkır tıkır çalışan eski strateji sınıflarının içini `if-else` bloklarıyla manipüle edip bozmamak (Open/Closed Principle'a sadık kalmak) amacıyla Decorator mantığıyla bu yapı kurgulanmıştır.
+- **Metotlar:**
+  - **Component:** `IindirimStratejisi` arayüzü.
+  - **Concrete Decorator:** `KombineIndirim` sınıfı. İçinde iki adet `IindirimStratejisi` referansı (`temelIndirim`, `ekstraIndirim`) tutar.
+  - **Sarmalama İşlevi:** `+ indirimUygula(fiyat: double): double` metodu, sarmalanan ilk indirim algoritmasının çıktısını alıp ikinci indirim algoritmasına girdi olarak besler (zincirleme hesaplama).
+- **Ne Kazandırdı:** - `KombineIndirim` sınıfı sayesinde iki farklı indirim stratejisi iç içe sarmalanarak tek bir `IindirimStratejisi` nesnesine dönüştürülmüştür.
+  - `Sepet` sınıfı veya mevcut indirim sınıfları üzerinde hiçbir kod manipülasyonu ya da değişiklik yapılmadan, sisteme çalışma zamanında (runtime) "birden fazla indirim uygulayabilme" esnekliği kazandırılmıştır.
